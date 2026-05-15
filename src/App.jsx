@@ -48,6 +48,20 @@ async function addStudent(event) {
       console.log(addStudent);
    }
 }
+//DELETE//
+async function deleteStudent(id) {
+   try {
+     const{error} = await supabase.from("Directory").delete().eq("id", id);
+     if(error){
+      console.log(error);
+     } else {
+      //Refresh students after delete//
+      fetchStudents();
+     }
+   } catch (error) {
+      console.error(error);
+   }
+}
 
    useEffect(()=>{
     fetchStudents();
@@ -85,6 +99,7 @@ async function addStudent(event) {
             <h2>{student.name}</h2>
             <p>{student.major}</p>
             <p>{student.year}</p>
+            <button onClick={()=> deleteStudent(student.id)}>X</button>
           </div>
         ))}
       </div>
