@@ -62,6 +62,22 @@ async function deleteStudent(id) {
       console.error(error);
    }
 }
+//UPDATE//
+async function updateStudent(id) {
+    const newName = prompt("Enter new name:");
+    const newMajor = prompt("Enter new major:");
+    const newYear = prompt("Enter new year:")
+   try {
+     const {error} = await supabase.from("Directory").update({name: newName, major: newMajor, year: newYear,}).eq("id", id);
+     if(error){
+      console.log(error);
+     } else {
+      fetchStudents();
+     }
+   } catch (error) {
+     console.error(error);
+   }
+}
 
    useEffect(()=>{
     fetchStudents();
@@ -99,6 +115,7 @@ async function deleteStudent(id) {
             <h2>{student.name}</h2>
             <p>{student.major}</p>
             <p>{student.year}</p>
+            <button onClick={()=> updateStudent(student.id)}>Edit</button>
             <button onClick={()=> deleteStudent(student.id)}>X</button>
           </div>
         ))}
